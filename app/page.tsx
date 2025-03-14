@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 interface Cocktail {
   id: number;
   name: string;
@@ -11,9 +12,9 @@ export default function Home() {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
 
   useEffect(() => {
-    async function fetchCocktails() {
+    async function fetchPopularCocktails() {
       try{
-        const response = await fetch("/api/cocktails");
+        const response = await fetch("/api/recipes/popular");
         const data = await response.json();
         setCocktails(data);
       }
@@ -21,7 +22,7 @@ export default function Home() {
         console.error(error);
       }
     }
-    fetchCocktails();
+    fetchPopularCocktails();
   }, []);
 
 
