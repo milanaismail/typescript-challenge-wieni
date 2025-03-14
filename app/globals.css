@@ -1,11 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Proza+Libre:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Proza+Libre:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
-  --beige: #F7F3E3;
-  --bordeaux: #6F1A07;
+  --bordeaux: #310E10;
+  --beige: #F7E7CE;
   --gold: #D4A373;
   --dark-teal: #205375;
   --muted-coral: #E06C6C;
@@ -21,17 +21,23 @@ body {
 
 h1 {
   color: var(--bordeaux);
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Playfair Display", serif;
 }
 
 h2{
-  font-family: "Proza Libre", sans-serif;
-  color: var(--bordeaux)
+  font-family: "Cormorant Garamond", serif;
+  color: var(--bordeaux);
+  font-size: 1.5rem;
 }
 
 h3{
   font-family: "Proza Libre", sans-serif;
   color: var(--black)
+}
+
+p{
+  font-family: "Nunito Sans", sans-serif;
+  color: var(--dark-olive)
 }
 
 button {

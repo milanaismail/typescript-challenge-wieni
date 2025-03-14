@@ -9,11 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bordeaux: "#7A2F2F",
-        beige: "#F5E6C8",
-        gold: "#D4A373",
-        darkBordeaux: "#5E1E1E",
-        lightBordeaux: "#A33F3F",
+        bordeaux: "#310E10",
+        beige: "#F7E7CE",
       },
     },
   },
