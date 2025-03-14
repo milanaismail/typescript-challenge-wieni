@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CocktailCard from "./components/card";
 
 interface Cocktail {
   id: number;
   name: string;
   category: string;
   image: string;
+  ingredients: { unit?: string; amount?: number; ingredient: string; special?: string }[];
+  preparation: string;
 }
 
 export default function Home() {
@@ -41,19 +44,11 @@ export default function Home() {
 
       <div className="w-full p-4"> 
         <div className="container mx-auto m-4">
-            <div>
-              <h2>Our most popular cocktails</h2>
-            </div>
-            <div className="">
-              <ul className="grid grid-cols-2 gap-4 mt-4">
-                {cocktails.map((cocktail, index) => (
-                  <li key={cocktail.id || index}>
-                    <h3 className="text-lg">{cocktail.name}</h3>
-                    <p className="text-sm">{cocktail.category}</p>
-                    <img src={cocktail.image} alt={cocktail.name} className="w-full h-48 object-cover rounded" />
-                  </li>
+            <h2>Our most popular cocktails</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cocktails.map((cocktail) => (
+                  <CocktailCard key={cocktail.id} cocktail={cocktail} />
                 ))}
-              </ul>
             </div>
           </div>
         </div>

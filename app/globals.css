@@ -6,9 +6,6 @@
 :root {
   --bordeaux: #310E10;
   --beige: #F7E7CE;
-  --gold: #D4A373;
-  --dark-teal: #205375;
-  --muted-coral: #E06C6C;
   --dark-olive: #55423D;
   --black: #2B2118;
   --white: #ECF0F1;
@@ -28,16 +25,19 @@ h2{
   font-family: "Cormorant Garamond", serif;
   color: var(--bordeaux);
   font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 h3{
   font-family: "Proza Libre", sans-serif;
-  color: var(--black)
+  color: var(--black);
+  margin-bottom: 0.5rem;
 }
 
 p{
   font-family: "Nunito Sans", sans-serif;
-  color: var(--dark-olive)
+  color: var(--dark-olive);
+  margin-bottom: 0.5rem;
 }
 
 button {
