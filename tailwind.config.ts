@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         bordeaux: "#310E10",
         beige: "#F7E7CE",
+        darkGreen: "#272e24"
       },
     },
   },

@@ -28,7 +28,7 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
           </ul>
 
           <h4 className="mt-3 text-md font-semibold text-bordeaux">Preparation:</h4>
-          {cocktail.preparation.includes(".") ? (
+          {cocktail.preparation && cocktail.preparation.includes(".") ? (
             <ul className="list-none text-sm text-gray-700">
               {cocktail.preparation.split('. ').map((sentence, index, arr) => (
                 sentence.trim() && (

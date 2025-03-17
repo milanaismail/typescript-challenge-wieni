@@ -16,6 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
     <html lang="en">
       <body className={`${inter.className}`}>
       <div className="absolute top-0 left-0 w-full z-50">

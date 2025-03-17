@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Logo } from "../logo";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navbarStyles = {
   default:
@@ -12,9 +13,12 @@ const navbarStyles = {
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isHomepage = pathname === "/";
 
   return (
-    <nav className="p-6">
+    <nav className={`p-6 ${isHomepage ? "bg-transparent" : "bg-darkGreen shadow-lg"}`}>
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link href="/" className="flex flex-1 text-white">
           <Logo />
