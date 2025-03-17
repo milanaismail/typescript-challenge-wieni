@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CocktailCard from "../components/card";
+import "../globals.css";
 
 interface Cocktail {
   id: number;
@@ -12,36 +13,33 @@ interface Cocktail {
   preparation: string;
 }
 
-
 export default function RecipePage() {
-  const [recipes, setRecipes] = useState<Cocktail[]>([]);
-  
+  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+
   useEffect(() => {
     async function fetchCocktails() {
-      try{
+      try {
         const response = await fetch("/api/recipes/all");
         const data = await response.json();
-        setRecipes(data);
-      }
-      catch(error){
+        setCocktails(data);
+      } catch (error) {
         console.error(error);
       }
     }
     fetchCocktails();
   }, []);
 
-
   return (
     <main className="pt-20">
       <div>
-       <div className="w-full p-4"> 
+        <div className="w-full p-4">
           <div className="container mx-auto m-4">
-              <h2>All cocktail recipes</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {recipes.map((recipe) => (
-                  <CocktailCard key={recipe.id} cocktail={recipe} />
-                ))}
-              </div>
+            <h1>All cocktail recipes</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cocktails.map((cocktail) => (
+                <CocktailCard key={cocktail.id} cocktail={cocktail} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

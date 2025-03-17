@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { Logo } from "../logo";
 import { useState } from "react";
@@ -7,8 +7,7 @@ import { usePathname } from "next/navigation";
 const navbarStyles = {
   default:
     "relative block border-b border-transparent p-2 text-white transition-all duration-300 ease-in-out hover:border-b-2 hover:border-white md:border-0 md:p-0 md:hover:bg-transparent",
-  active:
-    "relative block border-b-2 border-white py-2 text-white underline md:border-0 md:p-0",
+  active: "relative block border-b-2 border-white py-2 text-white underline md:border-0 md:p-0",
 };
 
 export const Navbar = () => {
@@ -35,7 +34,9 @@ export const Navbar = () => {
         >
           <span className="sr-only">Open main menu</span>
           <svg
-            className={`size-6 transition-all duration-300 ease-in-out ${open ? "opacity-0 scale-0 rotate-360" : "opacity-100 scale-100 rotate-0"}`}
+            className={`size-6 transition-all duration-300 ease-in-out ${
+              open ? "opacity-0 scale-0 rotate-360" : "opacity-100 scale-100 rotate-0"
+            }`}
             fill="white"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +48,9 @@ export const Navbar = () => {
             />
           </svg>
           <svg
-            className={`size-6 absolute transition-all duration-300 ease-in-out ${open ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-0 rotate-180"}`}
+            className={`size-6 absolute transition-all duration-300 ease-in-out ${
+              open ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-0 rotate-180"
+            }`}
             fill="white"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
