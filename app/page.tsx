@@ -1,33 +1,20 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { Cocktail } from "./types/types";
 import CocktailCard from "./components/card";
 
-interface Cocktail {
-  id: number;
-  name: string;
-  category: string;
-  image: string;
-  ingredients: { unit?: string; amount?: number; ingredient: string; special?: string }[];
-  preparation: string;
+async function getPopularCocktails() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipes/popular`, {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch popular cocktails");
+  }
+  return response.json();
 }
 
-export default function Home() {
-  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
 
-  useEffect(() => {
-    async function fetchPopularCocktails() {
-      try {
-        const response = await fetch("/api/recipes/popular");
-        const data = await response.json();
-        setCocktails(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchPopularCocktails();
-  }, []);
-
+export default async function Home() {
+  const cocktails: Cocktail[] = await getPopularCocktails(); 
+ 
   return (
     <main>
       <div

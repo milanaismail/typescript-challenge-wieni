@@ -1,14 +1,8 @@
-type Cocktail = {
+export interface Cocktail {
+  id: number;
   name: string;
-  glass: string;
   category: string;
-  ingredients: Ingredient[];
-  garnish: string;
+  image: string;
+  ingredients: { unit?: string; amount?: number; ingredient: string; special?: string }[];
   preparation: string;
-};
-
-type Ingredient = {
-  unit: string;
-  amount: number;
-  ingredient: string;
-};
+}

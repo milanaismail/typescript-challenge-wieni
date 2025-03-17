@@ -1,13 +1,6 @@
 "use client";
 
-interface Cocktail {
-  id: number;
-  name: string;
-  category: string;
-  image: string;
-  ingredients: { unit?: string; amount?: number; ingredient: string; special?: string }[];
-  preparation: string;
-}
+import { Cocktail } from "../../types/types";
 
 export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
   return (
