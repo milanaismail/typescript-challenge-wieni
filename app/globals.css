@@ -11,6 +11,7 @@
   --black: #2b2118;
   --white: #ecf0f1;
   --dark-green: #0f3d26;
+  --highlight: #8C6A5D;
 }
 
 body {
@@ -35,13 +36,17 @@ h2 {
 h3 {
   font-family: "Proza Libre", sans-serif;
   color: var(--black);
-  margin-bottom: 0.5rem;
 }
 
 p {
+  margin-top: 0.8rem;
+  margin-bottom: 0.2rem;
+}
+
+ul, li, p {
   font-family: "Nunito Sans", sans-serif;
   color: var(--dark-olive);
-  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
 }
 
 button {

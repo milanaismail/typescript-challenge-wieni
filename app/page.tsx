@@ -33,8 +33,8 @@ export default async function Home() {
             <h2>Our most popular cocktails</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cocktails.map((cocktail) => (
-              <CocktailCard key={cocktail.id} cocktail={cocktail} />
+            {cocktails.map((cocktail, index) => (
+              <CocktailCard key={index} cocktail={cocktail} />
             ))}
           </div>
         </div>

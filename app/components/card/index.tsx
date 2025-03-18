@@ -1,20 +1,23 @@
 "use client";
 
 import { Cocktail } from "../../types/types";
+import "../../globals.css";
 
 export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
   return (
     <div className="p-4 border border-bordeaux transition duration-300 ease-in-out hover:bg-bordeaux/10 hover:-translate-y-1">
-      <h3 className="text-lg">{cocktail.name}</h3>
-      <p className="text-sm">{cocktail.category}</p>
+      <div className="flex justify-between items-center">
+      <p className="text-lg m-0">{cocktail.name}</p>
+        <p className="text-sm text-beige m-0 bg-highlight py-2 px-3 w-fit rounded-full">{cocktail.category}</p>
+      </div>
       <img
         src={cocktail.image}
         alt={cocktail.name}
-        className="w-full h-96 object-cover object-center rounded md:h-64 lg:h-80"
+        className="w-full h-96 object-cover object-center rounded my-3 md:h-64 lg:h-80"
       />
 
-      <h4 className="mt-3 text-md font-semibold text-bordeaux">Ingredients:</h4>
-      <ul className="text-sm text-gray-700">
+      <p className="text-md font-semibold text-bordeaux">Ingredients:</p>
+      <ul className="text-sm">
         {cocktail.ingredients.map((ing, index) => (
           <li key={index}>
             {ing.amount ? `${ing.amount} ${ing.unit} ` : ""}
@@ -24,21 +27,21 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
       </ul>
       {cocktail.ingredients.some((ing) => ing.special) && (
         <>
-          <h4 className="mt-2 text-sm text-gray-700">Optional:</h4>
-          <ul className="text-sm text-gray-700">
+          <p className=" mb-0 text-sm italic">Optional:</p>
+          <ul className="text-sm ">
             {cocktail.ingredients
               .filter((ing) => ing.special)
               .map((ing, index) => (
                 <li key={index}>
-                   ({ing.special})
+                   {ing.special}
                 </li>
               ))}
           </ul>
         </>
       )}
-      <h4 className="mt-3 text-md font-semibold text-bordeaux">Preparation:</h4>
+      <p className=" text-md font-semibold text-bordeaux">Preparation:</p>
       {cocktail.preparation && cocktail.preparation.includes(".") ? (
-        <ul className="list-none text-sm text-gray-700">
+        <ul className="list-none text-sm ">
           {cocktail.preparation.split(". ").map(
             (sentence, index, arr) =>
               sentence.trim() && (
@@ -50,7 +53,7 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
           )}
         </ul>
       ) : (
-        <p className="text-sm text-gray-700">{cocktail.preparation}</p>
+        <p className="text-sm ">{cocktail.preparation}</p>
       )}
     </div>
   );
