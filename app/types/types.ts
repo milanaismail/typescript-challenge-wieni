@@ -4,5 +4,8 @@ export interface Cocktail {
   category: string;
   image: string;
   ingredients: { unit?: string; amount?: number; ingredient: string; special?: string }[];
+  garnish: string;
   preparation: string;
+  glass: string;
+  popularity: number;
 }

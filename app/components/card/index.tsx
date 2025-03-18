@@ -19,11 +19,23 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
           <li key={index}>
             {ing.amount ? `${ing.amount} ${ing.unit} ` : ""}
             {ing.ingredient}
-            {ing.special ? ` (${ing.special})` : ""}
           </li>
         ))}
       </ul>
-
+      {cocktail.ingredients.some((ing) => ing.special) && (
+        <>
+          <h4 className="mt-2 text-sm text-gray-700">Optional:</h4>
+          <ul className="text-sm text-gray-700">
+            {cocktail.ingredients
+              .filter((ing) => ing.special)
+              .map((ing, index) => (
+                <li key={index}>
+                   ({ing.special})
+                </li>
+              ))}
+          </ul>
+        </>
+      )}
       <h4 className="mt-3 text-md font-semibold text-bordeaux">Preparation:</h4>
       {cocktail.preparation && cocktail.preparation.includes(".") ? (
         <ul className="list-none text-sm text-gray-700">
