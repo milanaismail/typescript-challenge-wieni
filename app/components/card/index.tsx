@@ -7,8 +7,10 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
   return (
     <div className="p-4 border border-bordeaux transition duration-300 ease-in-out hover:bg-bordeaux/10 hover:-translate-y-1">
       <div className="flex justify-between items-center">
-      <p className="text-lg m-0">{cocktail.name}</p>
-        <p className="text-sm text-beige m-0 bg-highlight py-2 px-3 w-fit rounded-full">{cocktail.category}</p>
+        <p className="text-lg m-0">{cocktail.name}</p>
+        <p className="text-sm text-beige m-0 bg-highlight py-2 px-3 w-fit rounded-full">
+          {cocktail.category}
+        </p>
       </div>
       <img
         src={cocktail.image}
@@ -32,9 +34,7 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
             {cocktail.ingredients
               .filter((ing) => ing.special)
               .map((ing, index) => (
-                <li key={index}>
-                   {ing.special}
-                </li>
+                <li key={index}>{ing.special}</li>
               ))}
           </ul>
         </>
@@ -54,6 +54,14 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
         </ul>
       ) : (
         <p className="text-sm ">{cocktail.preparation}</p>
+      )}
+      {cocktail.garnish && (
+        <div>
+          <p className="text-md font-semibold text-bordeaux">Finishing touch:</p>
+          <ul className="text-sm">
+            <li className="">{cocktail.garnish}</li>
+          </ul>
+        </div>
       )}
     </div>
   );

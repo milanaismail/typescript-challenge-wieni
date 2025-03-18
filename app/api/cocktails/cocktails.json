@@ -132,7 +132,7 @@
     "name": "Tuxedo",
     "glass": "martini",
     "category": "All Day Cocktail",
-    "popularity": 99, 
+    "popularity": 90, 
     "image": "https://www.liquor.com/thmb/ekIXjF6nH5QFmrPBe9cmYFLs1CU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/tuxedo-n2-720x720-primary-ff39e13a7b2b4c5eb1b047a2a5dad7b0.jpg",
     "ingredients": [
       {
@@ -164,7 +164,7 @@
     "name": "Mojito",
     "glass": "collins",
     "category": "Longdrink",
-    "popularity": 65, 
+    "popularity": 100, 
     "image": "https://assets.bonappetit.com/photos/620ffe21d2721805fdcfbd31/1:1/w_2560%2Cc_limit/20220215%2520Mojito%2520LEDE.jpg",
     "ingredients": [
       {
@@ -291,7 +291,7 @@
     "name": "Pisco Sour",
     "glass": "old-fashioned",
     "category": "All Day Cocktail",
-    "popularity": 59, 
+    "popularity": 99, 
     "image": "https://res.cloudinary.com/htt8g4cd/images/f_auto,q_auto/v1731421124/wp/01_24_Pisco_Sour_HERO_GettyImages-1127875483_1920x1280_165090db0cb/01_24_Pisco_Sour_HERO_GettyImages-1127875483_1920x1280_165090db0cb.jpg?_i=AA",
     "ingredients": [
       {
@@ -1278,7 +1278,7 @@
     "name": "Monkey Gland",
     "glass": "martini",
     "category": "All Day Cocktail",
-    "popularity": 75,
+    "popularity": 98,
     "image":"https://www.thespruceeats.com/thmb/U6Ezws6Lt8bNy3LmJWfh5vTov8k=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/monkey-gland-cocktail-recipe-7593220-hero-5beae93646e0fb002d6e671c.jpg",
     "ingredients": [
       {
@@ -1876,7 +1876,7 @@
   {
     "name": "God Father",
     "glass": "old-fashioned",
-    "popularity": 78,
+    "popularity": 96,
     "image": "https://images.immediate.co.uk/production/volatile/sites/30/2021/11/Godfather-2370b01.jpg",
     "ingredients": [
       {

@@ -11,10 +11,9 @@ async function getPopularCocktails() {
   return response.json();
 }
 
-
 export default async function Home() {
-  const cocktails: Cocktail[] = await getPopularCocktails(); 
- 
+  const cocktails: Cocktail[] = await getPopularCocktails();
+
   return (
     <main>
       <div
