@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Cocktail } from "../types/types";
 import CocktailCard from "../components/card";
 import { X } from "lucide-react";
@@ -23,6 +23,8 @@ export default function ClientRecipePage({
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const filterModalRef = useRef<HTMLDivElement | null>(null);
+  const filterButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const fuse = useMemo(
     () =>
@@ -47,15 +49,22 @@ export default function ClientRecipePage({
   const filteredCocktails = useMemo(() => {
     return cocktails.filter((cocktail) => {
       const matchesCategory = !selectedCategory || cocktail.category === selectedCategory;
-      const validIngredients = cocktail.ingredients.filter((ing) => ing.ingredient);
+
+      const validIngredients = cocktail.ingredients
+        .filter((ing) => ing.ingredient)
+        .map((ing) => ing.ingredient.toLowerCase());
+
       const matchesIngredients =
         selectedIngredients.length === 0 ||
-        validIngredients.some((ing) => selectedIngredients.includes(ing.ingredient.toLowerCase()));
+        selectedIngredients.some((selectedIng) =>
+          validIngredients.includes(selectedIng.toLowerCase())
+        );
+
       const matchesSearch =
         searchTerm.trim() === "" ||
         cocktail.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         cocktail.ingredients.some(
-          (ing) => ing.ingredient && ing.ingredient.toLowerCase().includes(searchTerm.toLowerCase()) // ✅ Check if `ing.ingredient` exists
+          (ing) => ing.ingredient && ing.ingredient.toLowerCase().includes(searchTerm.toLowerCase())
         );
       const result = matchesCategory && matchesIngredients && matchesSearch;
 
@@ -92,13 +101,58 @@ export default function ClientRecipePage({
   useEffect(() => {
     if (showFilters) {
       document.body.style.overflow = "hidden";
+
+      const focusableElements = filterModalRef.current?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (focusableElements?.length) {
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+          if (e.key === "Tab") {
+            if (e.shiftKey) {
+              if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+              }
+            } else {
+              if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+              }
+            }
+          } else if (e.key === "Escape") {
+            setShowFilters(false);
+          } else if (e.key === "Enter") {
+            // Handle selection when Enter is pressed
+            if (document.activeElement?.classList.contains("category-item")) {
+              const selectedCategory = document.activeElement.getAttribute("data-category");
+              if (selectedCategory) setSelectedCategory(selectedCategory);
+            } else if (document.activeElement?.classList.contains("ingredient-item")) {
+              const selectedIngredient = document.activeElement.getAttribute("data-ingredient");
+              if (selectedIngredient) toggleIngredient(selectedIngredient);
+            }
+          }
+        };
+
+        firstElement.focus();
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+          document.body.style.overflow = "";
+          document.removeEventListener("keydown", handleKeyDown);
+
+          // Restore focus to the button when closing
+          filterButtonRef.current?.focus();
+        };
+      }
     } else {
       document.body.style.overflow = "";
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [showFilters]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (suggestions.length === 0) return;
@@ -127,6 +181,7 @@ export default function ClientRecipePage({
             <div className="flex items-center justify-between">
               <h1>All cocktail recipes</h1>
               <button
+                ref={filterButtonRef}
                 onClick={() => setShowFilters(true)}
                 className="p-2 bg-darkGreen hover:bg-opacity-80 rounded-full"
               >
@@ -146,6 +201,7 @@ export default function ClientRecipePage({
                 }}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 aria-label="Search for a cocktail by name or ingredient"
+                tabIndex={0}
               />
               {searchTerm && (
                 <button
@@ -155,6 +211,7 @@ export default function ClientRecipePage({
                   }}
                   aria-label="Clear search"
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black"
+                  tabIndex={0}
                 >
                   <X size={16} />
                 </button>
@@ -204,8 +261,16 @@ export default function ClientRecipePage({
             </div>
 
             {showFilters && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end z-50">
-                <div className="w-3/4 max-w-sm bg-darkGreen p-6 shadow-lg transform transition-transform translate-x-0">
+              <div
+                className="fixed inset-0 bg-black bg-opacity-50 flex justify-end z-50 "
+                id="filter-modal"
+                role="dialog"
+                aria-modal="true"
+              >
+                <div
+                  className="w-3/4 max-w-sm bg-darkGreen p-6 shadow-lg transform transition-transform translate-x-0"
+                  ref={filterModalRef}
+                >
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-lg m-0 text-beige">Filters</p>
                     <button onClick={() => setShowFilters(false)} aria-label="Close filters">
@@ -215,11 +280,14 @@ export default function ClientRecipePage({
 
                   <div className="mt-4">
                     <label className="hidden text-sm font-medium mb-2 text-beige">Category</label>
-                    <div className="border border-beige max-h-60 overflow-auto">
+                    <div className="border border-beige max-h-60 overflow-auto"
+                      >
                       <div
                         className={`cursor-pointer px-4 py-2 text-sm flex justify-between hover:bg-[#ebdcc6] hover:text-darkGreen ${
                           selectedCategory === "" ? "bg-[#ebdcc6] text-darkGreen" : "text-beige"
                         }`}
+                        tabIndex={0}
+                        data-category=""
                         onClick={() => setSelectedCategory("")}
                       >
                         All Categories
@@ -236,6 +304,8 @@ export default function ClientRecipePage({
                                 ? "bg-[#ebdcc6] text-darkGreen"
                                 : "text-beige"
                             }`}
+                            tabIndex={0}
+                            data-category={cat.name}
                             onClick={() => setSelectedCategory(cat.name)}
                           >
                             {cat.name}{" "}
@@ -248,13 +318,15 @@ export default function ClientRecipePage({
                     <label className="hidden text-sm font-medium mb-2 text-beige">
                       Ingredients
                     </label>
-                    <div className="border border-beige max-h-60 overflow-auto">
+                    <div className="border border-beige max-h-60 overflow-auto"
+                    tabIndex={0}>
                       <div
                         className={`cursor-pointer px-4 py-2 text-sm  flex justify-between hover:bg-[#ebdcc6] hover:text-darkGreen ${
                           selectedIngredients.length === 0
                             ? "bg-[#ebdcc6] text-darkGreen"
                             : "text-beige"
                         }`}
+                        tabIndex={0}
                         onClick={() => setSelectedIngredients([])}
                       >
                         All Ingredients
@@ -271,6 +343,8 @@ export default function ClientRecipePage({
                                 ? "bg-[#ebdcc6] text-darkGreen"
                                 : "text-beige"
                             }`}
+                            tabIndex={0}
+                            data-index={index}
                             onClick={() => toggleIngredient(ing.name)}
                           >
                             {ing.name}{" "}
@@ -287,13 +361,13 @@ export default function ClientRecipePage({
                         setSelectedIngredients([]);
                         setShowFilters(false);
                       }}
-                      className="px-4 py-2 border border-beige text-beige transition hover:bg-beige hover:text-darkGreen"
+                      className="min-w-40 px-4 py-2 border border-beige text-beige transition hover:bg-beige hover:text-darkGreen"
                     >
                       Clear
                     </button>
                     <button
                       onClick={() => setShowFilters(false)}
-                      className="px-4 py-2 bg-beige text-darkGreen transition hover:bg-opacity-90"
+                      className="min-w-40 px-4 py-2 bg-beige text-darkGreen transition hover:bg-opacity-90"
                     >
                       Apply
                     </button>
@@ -319,7 +393,7 @@ export default function ClientRecipePage({
 }
 
 function highlightMatch(text: string, query: string) {
-  if (!query || !text) return text; 
+  if (!query || !text) return text;
 
   const regex = new RegExp(`(${query})`, "gi");
   return text.split(regex).map((part, index) =>

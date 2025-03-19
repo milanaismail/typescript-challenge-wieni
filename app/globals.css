@@ -78,3 +78,8 @@ input {
 input::placeholder {
   color: var(--dark-olive-50);
 }
+
+:focus {
+  outline: 3px solid var(--highlight); 
+  outline-offset: 2px; 
+}
