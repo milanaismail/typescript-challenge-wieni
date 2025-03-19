@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Cocktail } from "../types/types";
 import CocktailCard from "../components/card";
 import { X } from "lucide-react";
@@ -17,7 +18,9 @@ export default function ClientRecipePage({
   initialCategories: { name: string; count: number }[];
   initialIngredients: { name: string; count: number }[];
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -25,6 +28,12 @@ export default function ClientRecipePage({
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const filterModalRef = useRef<HTMLDivElement | null>(null);
   const filterButtonRef = useRef<HTMLButtonElement | null>(null);
+  const router = useRouter(); 
+
+
+  useEffect(() => {
+    router.replace("/recipes"); 
+  }, []);
 
   const fuse = useMemo(
     () =>
@@ -126,7 +135,6 @@ export default function ClientRecipePage({
           } else if (e.key === "Escape") {
             setShowFilters(false);
           } else if (e.key === "Enter") {
-            // Handle selection when Enter is pressed
             if (document.activeElement?.classList.contains("category-item")) {
               const selectedCategory = document.activeElement.getAttribute("data-category");
               if (selectedCategory) setSelectedCategory(selectedCategory);
@@ -144,7 +152,6 @@ export default function ClientRecipePage({
           document.body.style.overflow = "";
           document.removeEventListener("keydown", handleKeyDown);
 
-          // Restore focus to the button when closing
           filterButtonRef.current?.focus();
         };
       }
@@ -172,6 +179,9 @@ export default function ClientRecipePage({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex, suggestions]);
+  useEffect(() => {
+    setSearchTerm(initialSearch);
+  }, [initialSearch]);
 
   return (
     <main className="pt-20">
@@ -267,10 +277,7 @@ export default function ClientRecipePage({
                 role="dialog"
                 aria-modal="true"
               >
-                <div
-                  className="w-3/4 max-w-sm bg-darkGreen p-6 shadow-lg transform transition-transform translate-x-0"
-                  ref={filterModalRef}
-                >
+                <div className="w-3/4 max-w-sm bg-darkGreen p-6 translate-x-0" ref={filterModalRef}>
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-lg m-0 text-beige">Filters</p>
                     <button onClick={() => setShowFilters(false)} aria-label="Close filters">
@@ -280,8 +287,7 @@ export default function ClientRecipePage({
 
                   <div className="mt-4">
                     <label className="hidden text-sm font-medium mb-2 text-beige">Category</label>
-                    <div className="border border-beige max-h-60 overflow-auto"
-                      >
+                    <div className="border border-beige max-h-60 overflow-auto">
                       <div
                         className={`cursor-pointer px-4 py-2 text-sm flex justify-between hover:bg-[#ebdcc6] hover:text-darkGreen ${
                           selectedCategory === "" ? "bg-[#ebdcc6] text-darkGreen" : "text-beige"
@@ -318,8 +324,7 @@ export default function ClientRecipePage({
                     <label className="hidden text-sm font-medium mb-2 text-beige">
                       Ingredients
                     </label>
-                    <div className="border border-beige max-h-60 overflow-auto"
-                    tabIndex={0}>
+                    <div className="border border-beige max-h-60 overflow-auto" tabIndex={0}>
                       <div
                         className={`cursor-pointer px-4 py-2 text-sm  flex justify-between hover:bg-[#ebdcc6] hover:text-darkGreen ${
                           selectedIngredients.length === 0

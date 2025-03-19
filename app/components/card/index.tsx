@@ -1,11 +1,24 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Cocktail } from "../../types/types";
 import "../../globals.css";
 
-export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
+export default function CocktailCard({ cocktail, compact = false }: { cocktail: Cocktail; compact?: boolean }) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/recipes?search=${encodeURIComponent(cocktail.name)}`);
+  };
+  
   return (
-    <div className="p-4 border border-bordeaux transition duration-300 ease-in-out hover:bg-bordeaux/10 hover:-translate-y-1">
+    <div className="p-4 border border-bordeaux transition duration-300 ease-in-out hover:bg-bordeaux/10 hover:-translate-y-1"
+    tabIndex={0}
+    role="button"
+    aria-label={`View recipe for ${cocktail.name}`}
+    onClick={handleClick}
+    onKeyPress={(e) => e.key === "Enter" && handleClick()}
+    >
       <div className="flex justify-between items-center">
         <p className="text-lg m-0">{cocktail.name}</p>
         <p className="text-sm text-beige m-0 bg-highlight py-2 px-3 w-fit rounded-full">
@@ -17,6 +30,8 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
         alt={cocktail.name}
         className="w-full h-96 object-cover object-center rounded my-3 md:h-64 lg:h-80"
       />
+      {!compact && (
+                <>
 
       <p className="text-md font-semibold text-bordeaux">Ingredients:</p>
       <ul className="text-sm">
@@ -62,6 +77,8 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
             <li className="">{cocktail.garnish}</li>
           </ul>
         </div>
+      )}
+    </>
       )}
     </div>
   );
