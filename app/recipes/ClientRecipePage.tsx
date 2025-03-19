@@ -28,11 +28,10 @@ export default function ClientRecipePage({
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const filterModalRef = useRef<HTMLDivElement | null>(null);
   const filterButtonRef = useRef<HTMLButtonElement | null>(null);
-  const router = useRouter(); 
-
+  const router = useRouter();
 
   useEffect(() => {
-    router.replace("/recipes"); 
+    router.replace("/recipes");
   }, []);
 
   const fuse = useMemo(
@@ -134,9 +133,9 @@ export default function ClientRecipePage({
             }
           } else if (e.key === "Escape") {
             setShowFilters(false);
-          } else  if (e.key === "Enter") {
+          } else if (e.key === "Enter") {
             const activeElement = document.activeElement as HTMLElement;
-    
+
             if (activeElement?.classList.contains("category-item")) {
               const selectedCategory = activeElement.getAttribute("data-category");
               if (selectedCategory) setSelectedCategory(selectedCategory);
@@ -148,9 +147,8 @@ export default function ClientRecipePage({
             setShowFilters(false);
           }
         };
-    
+
         filterModalRef.current?.addEventListener("keydown", handleKeyDown);
-    
 
         firstElement.focus();
         document.addEventListener("keydown", handleKeyDown);

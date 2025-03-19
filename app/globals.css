@@ -80,5 +80,5 @@ input::placeholder {
 }
 
 :focus {
-  outline: 2px solid var(--highlight); 
+  outline: 2px solid var(--highlight);
 }
