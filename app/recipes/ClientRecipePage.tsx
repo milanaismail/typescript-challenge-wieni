@@ -134,16 +134,23 @@ export default function ClientRecipePage({
             }
           } else if (e.key === "Escape") {
             setShowFilters(false);
-          } else if (e.key === "Enter") {
-            if (document.activeElement?.classList.contains("category-item")) {
-              const selectedCategory = document.activeElement.getAttribute("data-category");
+          } else  if (e.key === "Enter") {
+            const activeElement = document.activeElement as HTMLElement;
+    
+            if (activeElement?.classList.contains("category-item")) {
+              const selectedCategory = activeElement.getAttribute("data-category");
               if (selectedCategory) setSelectedCategory(selectedCategory);
-            } else if (document.activeElement?.classList.contains("ingredient-item")) {
-              const selectedIngredient = document.activeElement.getAttribute("data-ingredient");
+            } else if (activeElement?.classList.contains("ingredient-item")) {
+              const selectedIngredient = activeElement.getAttribute("data-ingredient");
               if (selectedIngredient) toggleIngredient(selectedIngredient);
             }
+          } else if (e.key === "Escape") {
+            setShowFilters(false);
           }
         };
+    
+        filterModalRef.current?.addEventListener("keydown", handleKeyDown);
+    
 
         firstElement.focus();
         document.addEventListener("keydown", handleKeyDown);
@@ -295,6 +302,11 @@ export default function ClientRecipePage({
                         tabIndex={0}
                         data-category=""
                         onClick={() => setSelectedCategory("")}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setSelectedCategory("");
+                          }
+                        }}
                       >
                         All Categories
                       </div>
@@ -312,7 +324,13 @@ export default function ClientRecipePage({
                             }`}
                             tabIndex={0}
                             data-category={cat.name}
+                            role="button"
                             onClick={() => setSelectedCategory(cat.name)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                setSelectedCategory(cat.name);
+                              }
+                            }}
                           >
                             {cat.name}{" "}
                             <span className="ml-2 text-xs opacity-75">({cat.count})</span>
@@ -332,7 +350,13 @@ export default function ClientRecipePage({
                             : "text-beige"
                         }`}
                         tabIndex={0}
+                        data-category=""
                         onClick={() => setSelectedIngredients([])}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setSelectedIngredients([]);
+                          }
+                        }}
                       >
                         All Ingredients
                       </div>
@@ -349,8 +373,14 @@ export default function ClientRecipePage({
                                 : "text-beige"
                             }`}
                             tabIndex={0}
-                            data-index={index}
+                            data-ingredient={ing.name}
+                            role="button"
                             onClick={() => toggleIngredient(ing.name)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                toggleIngredient(ing.name);
+                              }
+                            }}
                           >
                             {ing.name}{" "}
                             <span className="ml-2 text-xs opacity-75">({ing.count})</span>
