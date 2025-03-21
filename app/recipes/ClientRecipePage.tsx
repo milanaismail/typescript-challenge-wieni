@@ -30,10 +30,6 @@ export default function ClientRecipePage({
   const filterButtonRef = useRef<HTMLButtonElement | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    router.replace("/recipes");
-  }, []);
-
   const fuse = useMemo(
     () =>
       new Fuse(cocktails, {
