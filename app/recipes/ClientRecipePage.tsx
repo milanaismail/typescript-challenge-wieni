@@ -390,6 +390,7 @@ export default function ClientRecipePage({
                         setSelectedCategory("");
                         setSelectedIngredients([]);
                         setShowFilters(false);
+                        router.replace("/recipes"); 
                       }}
                       className="min-w-40 px-4 py-2 border border-beige text-beige transition hover:bg-beige hover:text-darkGreen"
                     >
