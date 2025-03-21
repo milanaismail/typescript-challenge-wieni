@@ -219,6 +219,7 @@ export default function ClientRecipePage({
                   onClick={() => {
                     setSearchTerm("");
                     setShowSuggestions(false);
+                    router.replace("/recipes"); 
                   }}
                   aria-label="Clear search"
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black"
